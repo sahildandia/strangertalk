@@ -178,13 +178,13 @@ export default function RandomChatPage() {
   };
 
   return (
-    <div className="fixed inset-0 overflow-hidden bg-neutral-950 p-2 sm:p-4 md:p-6 flex flex-col selection:bg-blue-500/30">
+    <div className="fixed inset-0 overflow-hidden bg-slate-50 p-2 sm:p-4 md:p-6 flex flex-col selection:bg-blue-500/30">
       <header className="mb-2 sm:mb-4 flex justify-between items-center px-2">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 tracking-tight">mkceanonyms</h1>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 tracking-tight">StrangerTalk</h1>
           <div className="flex items-center gap-3 mt-0.5 sm:mt-1">
-            <p className="text-neutral-400 text-xs sm:text-sm">Connect instantly. Talk freely.</p>
-            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-neutral-900 border border-neutral-800 text-[10px] sm:text-xs text-neutral-300">
+            <p className="text-slate-500 text-xs sm:text-sm">Connect instantly. Talk freely.</p>
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white border border-slate-200 text-[10px] sm:text-xs text-slate-700">
               <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_5px_rgba(34,197,94,0.5)]"></span>
               {onlineCount} online
             </div>
@@ -192,7 +192,7 @@ export default function RandomChatPage() {
         </div>
       </header>
 
-      <div className="flex-1 bg-neutral-900/50 backdrop-blur-md border border-neutral-800 rounded-2xl sm:rounded-3xl overflow-hidden flex flex-col shadow-2xl relative">
+      <div className="flex-1 bg-white/80 backdrop-blur-md border border-slate-200 rounded-2xl sm:rounded-3xl overflow-hidden flex flex-col shadow-2xl relative">
         {/* Glow behind the chat box */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] sm:w-[400px] h-[250px] sm:h-[400px] bg-blue-600/10 rounded-full blur-[80px] sm:blur-[100px] pointer-events-none" />
         {chatState === "IDLE" && (
@@ -200,8 +200,8 @@ export default function RandomChatPage() {
             <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-full flex items-center justify-center mb-6 sm:mb-8 shadow-[0_0_30px_rgba(59,130,246,0.2)]">
               <Dices className="w-10 h-10 sm:w-12 sm:h-12 text-blue-400" />
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3 text-neutral-100 tracking-tight">Ready to meet someone?</h2>
-            <p className="text-neutral-400 max-w-md mb-6 sm:mb-8 text-base sm:text-lg leading-relaxed">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3 text-slate-900 tracking-tight">Ready to meet someone?</h2>
+            <p className="text-slate-500 max-w-md mb-6 sm:mb-8 text-base sm:text-lg leading-relaxed">
               You will be matched with another stranger anonymously. Be respectful and have fun.
             </p>
 
@@ -211,7 +211,7 @@ export default function RandomChatPage() {
                 className={`flex-1 py-2.5 sm:py-3 rounded-full font-bold transition-all border text-sm sm:text-base ${
                   myGender === "Boy" 
                     ? "bg-blue-600 border-blue-500 text-white shadow-[0_0_15px_rgba(37,99,235,0.4)]" 
-                    : "bg-neutral-900 border-neutral-700 text-neutral-400 hover:bg-neutral-800"
+                    : "bg-white border-slate-300 text-slate-500 hover:bg-slate-100"
                 }`}
               >
                 👦 Boy
@@ -221,7 +221,7 @@ export default function RandomChatPage() {
                 className={`flex-1 py-2.5 sm:py-3 rounded-full font-bold transition-all border text-sm sm:text-base ${
                   myGender === "Girl" 
                     ? "bg-purple-600 border-purple-500 text-white shadow-[0_0_15px_rgba(147,51,234,0.4)]" 
-                    : "bg-neutral-900 border-neutral-700 text-neutral-400 hover:bg-neutral-800"
+                    : "bg-white border-slate-300 text-slate-500 hover:bg-slate-100"
                 }`}
               >
                 👧 Girl
@@ -234,7 +234,7 @@ export default function RandomChatPage() {
               className={`group relative flex items-center justify-center gap-2 sm:gap-3 w-full max-w-[16rem] sm:max-w-xs px-6 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg transition-all ${
                 myGender 
                   ? "bg-white hover:bg-neutral-200 text-black shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:scale-105 active:scale-95" 
-                  : "bg-neutral-800 text-neutral-500 cursor-not-allowed opacity-70"
+                  : "bg-slate-100 text-slate-400 cursor-not-allowed opacity-70"
               }`}
             >
               <Search className={`w-5 h-5 sm:w-6 sm:h-6 transition-transform ${myGender ? "group-hover:rotate-12" : ""}`} />
@@ -248,13 +248,13 @@ export default function RandomChatPage() {
             <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-full flex items-center justify-center mb-6 sm:mb-8 shadow-[0_0_30px_rgba(59,130,246,0.2)] animate-pulse">
               <Search className="w-10 h-10 sm:w-12 sm:h-12 text-blue-400 animate-spin-slow" />
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3 text-neutral-100 tracking-tight">Searching for someone...</h2>
-            <p className="text-neutral-400 max-w-md mb-8 sm:mb-10 text-base sm:text-lg leading-relaxed">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3 text-slate-900 tracking-tight">Searching for someone...</h2>
+            <p className="text-slate-500 max-w-md mb-8 sm:mb-10 text-base sm:text-lg leading-relaxed">
               This might take a moment depending on how many people are online.
             </p>
             <button 
               onClick={handleCancelSearch}
-              className="flex items-center gap-2 sm:gap-3 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-medium text-base sm:text-lg transition-colors border border-neutral-700"
+              className="flex items-center gap-2 sm:gap-3 bg-slate-100 hover:bg-slate-200 text-slate-700 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-medium text-base sm:text-lg transition-colors border border-slate-300"
             >
               <X className="w-4 h-4 sm:w-5 sm:h-5" />
               Cancel Search
@@ -263,15 +263,15 @@ export default function RandomChatPage() {
         )}
 
         {chatState === "MATCHED" && (
-          <div className="flex-1 flex flex-col h-full relative z-10 bg-neutral-950/40">
-            <div className="p-3 sm:p-4 border-b border-neutral-800/80 flex justify-between items-center bg-neutral-900/80 backdrop-blur-md">
+          <div className="flex-1 flex flex-col h-full relative z-10 bg-slate-50/40">
+            <div className="p-3 sm:p-4 border-b border-slate-200 flex justify-between items-center bg-white/90 backdrop-blur-md">
               <div className="flex items-center gap-2 sm:gap-3 overflow-hidden">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 bg-neutral-800 border border-neutral-700 rounded-full flex items-center justify-center shadow-inner">
-                  <User className="w-5 h-5 sm:w-6 sm:h-6 text-neutral-400" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 bg-slate-100 border border-slate-300 rounded-full flex items-center justify-center shadow-inner">
+                  <User className="w-5 h-5 sm:w-6 sm:h-6 text-slate-500" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="font-bold text-neutral-200 text-sm sm:text-base truncate">
-                    Anonymous {partnerGender && <span className="text-neutral-500 font-normal ml-1">({partnerGender})</span>}
+                  <h3 className="font-bold text-slate-800 text-sm sm:text-base truncate">
+                    Anonymous {partnerGender && <span className="text-slate-400 font-normal ml-1">({partnerGender})</span>}
                   </h3>
                   <span className="text-[10px] sm:text-xs text-green-400 flex items-center gap-1.5 font-medium tracking-wide uppercase">
                     <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-400 rounded-full shadow-[0_0_8px_rgba(74,222,128,0.8)] animate-pulse"></span>
@@ -280,10 +280,10 @@ export default function RandomChatPage() {
                 </div>
               </div>
               <div className="flex gap-1.5 sm:gap-2 flex-shrink-0">
-                <button title="Report" className="p-2 sm:p-2.5 text-neutral-400 hover:text-red-400 hover:bg-red-400/10 rounded-full transition-colors">
+                <button title="Report" className="p-2 sm:p-2.5 text-slate-500 hover:text-red-400 hover:bg-red-400/10 rounded-full transition-colors">
                   <Flag className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
-                <button onClick={handleNext} className="px-3 py-1.5 sm:px-5 sm:py-2.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 border border-neutral-700 hover:border-neutral-600 rounded-full font-medium text-xs sm:text-sm transition-all active:scale-95">
+                <button onClick={handleNext} className="px-3 py-1.5 sm:px-5 sm:py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 hover:border-slate-400 rounded-full font-medium text-xs sm:text-sm transition-all active:scale-95">
                   Skip
                 </button>
                 <button onClick={handleEndChat} className="px-3 py-1.5 sm:px-5 sm:py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 hover:border-red-500/40 rounded-full font-medium text-xs sm:text-sm transition-all flex items-center gap-1 sm:gap-2 active:scale-95">
@@ -303,14 +303,14 @@ export default function RandomChatPage() {
                   }`}
                 >
                   {msg.sender === "system" ? (
-                    <span className="bg-neutral-800/80 backdrop-blur-sm border border-neutral-700/50 text-neutral-400 text-[10px] sm:text-xs px-3 sm:px-4 py-1 sm:py-1.5 rounded-full uppercase tracking-wider font-medium text-center">
+                    <span className="bg-slate-100 backdrop-blur-sm border border-slate-200 text-slate-500 text-[10px] sm:text-xs px-3 sm:px-4 py-1 sm:py-1.5 rounded-full uppercase tracking-wider font-medium text-center">
                       {msg.content}
                     </span>
                   ) : (
                     <div className={`px-4 sm:px-5 py-2 sm:py-3 rounded-2xl shadow-sm text-sm sm:text-[15px] leading-relaxed break-words ${
                       msg.sender === "me" 
                         ? "bg-blue-600 text-white rounded-tr-sm" 
-                        : "bg-neutral-800 border border-neutral-700 text-neutral-200 rounded-tl-sm"
+                        : "bg-slate-100 border border-slate-300 text-slate-800 rounded-tl-sm"
                     }`}>
                       {msg.content}
                     </div>
@@ -320,13 +320,13 @@ export default function RandomChatPage() {
               <div ref={messagesEndRef} />
             </div>
 
-            <form onSubmit={sendMessage} className="p-2 sm:p-4 border-t border-neutral-800/80 bg-neutral-900/80 backdrop-blur-md flex gap-2 sm:gap-3">
+            <form onSubmit={sendMessage} className="p-2 sm:p-4 border-t border-slate-200 bg-white/90 backdrop-blur-md flex gap-2 sm:gap-3">
               <input 
                 type="text" 
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 placeholder="Type a message..." 
-                className="flex-1 bg-neutral-950 border border-neutral-800 focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 rounded-full px-4 sm:px-6 py-2.5 sm:py-3.5 text-base text-neutral-200 placeholder-neutral-500 outline-none transition-all shadow-inner"
+                className="flex-1 bg-slate-50 border border-slate-200 focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 rounded-full px-4 sm:px-6 py-2.5 sm:py-3.5 text-base text-slate-800 placeholder-slate-400 outline-none transition-all shadow-inner"
               />
               <button 
                 type="submit"
