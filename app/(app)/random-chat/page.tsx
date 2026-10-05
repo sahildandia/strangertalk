@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Dices, Search, X, Flag, Send, User } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { RealtimeChannel } from "@supabase/supabase-js";
@@ -15,9 +15,14 @@ export default function RandomChatPage() {
   const [myGender, setMyGender] = useState<"Boy" | "Girl" | null>(null);
   const [partnerGender, setPartnerGender] = useState<"Boy" | "Girl" | null>(null);
   const [onlineCount, setOnlineCount] = useState<number>(1);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   
   // Generate a random ID for this client session
   const [myId] = useState(() => Math.random().toString(36).substring(2, 15));
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   useEffect(() => {
     const globalChannel = supabase.channel('global_presence', {
@@ -27,7 +32,7 @@ export default function RandomChatPage() {
     globalChannel
       .on('presence', { event: 'sync' }, () => {
         const state = globalChannel.presenceState();
-        setOnlineCount(Object.keys(state).length);
+        setOnlineCount(Math.max(1, Object.keys(state).length));
       })
       .subscribe(async (status) => {
         if (status === 'SUBSCRIBED') {
@@ -57,7 +62,9 @@ export default function RandomChatPage() {
     setChatState("MATCHED");
     setMessages([{ id: "sys1", sender: "system", content: "You have been matched anonymously. Say hi!" }]);
 
-    const chatChannel = supabase.channel(newRoomId);
+    const chatChannel = supabase.channel(newRoomId, {
+      config: { broadcast: { self: true, ack: false } }
+    });
     
     chatChannel
       .on('broadcast', { event: 'message' }, (payload) => {
@@ -84,7 +91,7 @@ export default function RandomChatPage() {
     setChatState("SEARCHING");
     
     const waitingChannel = supabase.channel('waiting_room', {
-      config: { presence: { key: myId } }
+      config: { presence: { key: myId }, broadcast: { self: true, ack: false } }
     });
 
     waitingChannel
@@ -97,8 +104,6 @@ export default function RandomChatPage() {
           // @ts-expect-error: Suppressing TS error as gender might not be strongly typed on presence state
           const pGender = state[partnerId]?.[0]?.gender || "Unknown";
           
-          // To prevent race conditions (both users trying to create a room simultaneously),
-          // only the user with the alphabetically smaller ID initiates the match.
           if (myId < partnerId) {
             const newRoomId = `room-${Date.now()}-${myId}`;
             
@@ -151,7 +156,9 @@ export default function RandomChatPage() {
 
   const handleNext = () => {
     handleEndChat();
-    handleStartSearch();
+    setTimeout(() => {
+      handleStartSearch();
+    }, 100);
   };
 
   const sendMessage = (e: React.FormEvent) => {
@@ -310,6 +317,7 @@ export default function RandomChatPage() {
                   )}
                 </div>
               ))}
+              <div ref={messagesEndRef} />
             </div>
 
             <form onSubmit={sendMessage} className="p-2 sm:p-4 border-t border-neutral-800/80 bg-neutral-900/80 backdrop-blur-md flex gap-2 sm:gap-3">
