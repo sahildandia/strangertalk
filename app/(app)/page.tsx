@@ -63,7 +63,7 @@ export default function RandomChatPage() {
     setMessages([{ id: "sys1", sender: "system", content: "You have been matched anonymously. Say hi!" }]);
 
     const chatChannel = supabase.channel(newRoomId, {
-      config: { broadcast: { self: true, ack: false } }
+      config: { broadcast: { ack: false } }
     });
     
     chatChannel
@@ -91,7 +91,7 @@ export default function RandomChatPage() {
     setChatState("SEARCHING");
     
     const waitingChannel = supabase.channel('waiting_room', {
-      config: { presence: { key: myId }, broadcast: { self: true, ack: false } }
+      config: { presence: { key: myId }, broadcast: { ack: false } }
     });
 
     waitingChannel
