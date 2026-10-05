@@ -315,10 +315,21 @@ export default function RandomChatPage() {
                   <h3 className="font-bold text-slate-800 text-sm sm:text-base truncate">
                     Anonymous {partnerGender && <span className="text-slate-400 font-normal ml-1">({partnerGender})</span>}
                   </h3>
-                  <span className="text-[10px] sm:text-xs text-green-400 flex items-center gap-1.5 font-medium tracking-wide uppercase">
-                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-400 rounded-full shadow-[0_0_8px_rgba(74,222,128,0.8)] animate-pulse"></span>
-                    Online
-                  </span>
+                  {isPartnerTyping ? (
+                    <span className="text-[10px] sm:text-xs text-blue-500 flex items-center gap-1.5 font-medium tracking-wide uppercase">
+                      <span className="flex gap-0.5 mt-0.5">
+                        <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                        <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                        <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                      </span>
+                      Typing...
+                    </span>
+                  ) : (
+                    <span className="text-[10px] sm:text-xs text-green-400 flex items-center gap-1.5 font-medium tracking-wide uppercase">
+                      <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-400 rounded-full shadow-[0_0_8px_rgba(74,222,128,0.8)] animate-pulse"></span>
+                      Online
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="flex gap-1.5 sm:gap-2 flex-shrink-0">
@@ -359,15 +370,6 @@ export default function RandomChatPage() {
                   )}
                 </div>
               ))}
-              {isPartnerTyping && (
-                <div className="self-start items-start flex flex-col max-w-[85%] sm:max-w-[75%]">
-                  <div className="px-4 sm:px-5 py-2 sm:py-3 rounded-2xl shadow-sm text-sm sm:text-[15px] bg-slate-100 border border-slate-300 text-slate-500 rounded-tl-sm flex items-center gap-1.5 h-10 sm:h-12">
-                    <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                    <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                    <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
-                  </div>
-                </div>
-              )}
               <div ref={messagesEndRef} />
             </div>
 
