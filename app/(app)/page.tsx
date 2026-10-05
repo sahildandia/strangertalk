@@ -16,6 +16,9 @@ export default function RandomChatPage() {
   const [partnerGender, setPartnerGender] = useState<"Boy" | "Girl" | null>(null);
   const [onlineCount, setOnlineCount] = useState<number>(1);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [isPartnerTyping, setIsPartnerTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   // Generate a random ID for this client session
   const [myId] = useState(() => Math.random().toString(36).substring(2, 15));
@@ -68,6 +71,7 @@ export default function RandomChatPage() {
     
     chatChannel
       .on('broadcast', { event: 'message' }, (payload) => {
+        setIsPartnerTyping(false);
         setMessages(prev => [...prev, { 
           id: payload.payload.id, 
           sender: "partner", 
@@ -75,7 +79,11 @@ export default function RandomChatPage() {
         }]);
       })
       .on('broadcast', { event: 'leave' }, () => {
+        setIsPartnerTyping(false);
         setMessages(prev => [...prev, { id: Date.now().toString(), sender: "system", content: "Your partner has left the chat." }]);
+      })
+      .on('broadcast', { event: 'typing' }, (payload) => {
+        setIsPartnerTyping(payload.payload.isTyping);
       })
       .subscribe();
 
@@ -137,6 +145,8 @@ export default function RandomChatPage() {
   const handleCancelSearch = () => {
     setChatState("IDLE");
     setPartnerGender(null);
+    setIsPartnerTyping(false);
+    setIsTyping(false);
     if (channel) {
       channel.unsubscribe();
       setChannel(null);
@@ -147,6 +157,8 @@ export default function RandomChatPage() {
     setChatState("IDLE");
     setMessages([]);
     setPartnerGender(null);
+    setIsPartnerTyping(false);
+    setIsTyping(false);
     if (channel) {
       channel.send({ type: 'broadcast', event: 'leave', payload: {} });
       channel.unsubscribe();
@@ -159,6 +171,32 @@ export default function RandomChatPage() {
     setTimeout(() => {
       handleStartSearch();
     }, 100);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setInput(val);
+    
+    if (channel && chatState === "MATCHED") {
+      if (val.length > 0 && !isTyping) {
+        setIsTyping(true);
+        channel.send({ type: 'broadcast', event: 'typing', payload: { isTyping: true } });
+      } else if (val.length === 0 && isTyping) {
+        setIsTyping(false);
+        channel.send({ type: 'broadcast', event: 'typing', payload: { isTyping: false } });
+      }
+
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+
+      if (val.length > 0) {
+        typingTimeoutRef.current = setTimeout(() => {
+          setIsTyping(false);
+          if (channel) {
+            channel.send({ type: 'broadcast', event: 'typing', payload: { isTyping: false } });
+          }
+        }, 2000);
+      }
+    }
   };
 
   const sendMessage = (e: React.FormEvent) => {
@@ -175,6 +213,10 @@ export default function RandomChatPage() {
     
     setMessages(prev => [...prev, { id: msgId, sender: "me", content: input }]);
     setInput("");
+
+    setIsTyping(false);
+    channel.send({ type: 'broadcast', event: 'typing', payload: { isTyping: false } });
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
   };
 
   return (
@@ -317,6 +359,15 @@ export default function RandomChatPage() {
                   )}
                 </div>
               ))}
+              {isPartnerTyping && (
+                <div className="self-start items-start flex flex-col max-w-[85%] sm:max-w-[75%]">
+                  <div className="px-4 sm:px-5 py-2 sm:py-3 rounded-2xl shadow-sm text-sm sm:text-[15px] bg-slate-100 border border-slate-300 text-slate-500 rounded-tl-sm flex items-center gap-1.5 h-10 sm:h-12">
+                    <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                    <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                    <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                  </div>
+                </div>
+              )}
               <div ref={messagesEndRef} />
             </div>
 
@@ -324,7 +375,7 @@ export default function RandomChatPage() {
               <input 
                 type="text" 
                 value={input}
-                onChange={e => setInput(e.target.value)}
+                onChange={handleInputChange}
                 placeholder="Type a message..." 
                 className="flex-1 bg-slate-50 border border-slate-200 focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 rounded-full px-4 sm:px-6 py-2.5 sm:py-3.5 text-base text-slate-800 placeholder-slate-400 outline-none transition-all shadow-inner"
               />
